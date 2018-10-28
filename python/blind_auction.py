@@ -114,9 +114,9 @@ class BlindAuction(Auction):
             fd.write(json.dumps(self._bid_history))
 
         data = json.dumps(data)
-        # print("blind data:", data)
+        print("blind data:", data)
         memo_data = self._encrypt(data)
-        # print("encrypt blind data:", memo_data)
+        print("encrypt blind data:", memo_data)
         self._instance.custom([], memo_id, memo_data, account=self._host)
         market.buy(price, self._amount, self._expiration,
                    killfill=False, account=account)
@@ -124,6 +124,7 @@ class BlindAuction(Auction):
     def _encrypt(self, data):
         data = data.encode('utf8')
         crypto_data = rsa.encrypt(data, self._pub_key)
+        print("crypto_data:", crypto_data)
         return str(crypto_data)
 
     def bid(self, bidder, price):
@@ -172,8 +173,8 @@ class BlindAuction(Auction):
                               cybex_instance=self._instance)
 
 
-        market.sell(price, self._amount, self._expiration,
-                    killfill=False, account=self._host)
+        # market.sell(price, self._amount, self._expiration,
+        #             killfill=False, account=self._host)
 
 
     def finalize_deal(self):
